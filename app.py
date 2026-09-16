@@ -44,13 +44,20 @@ university_rating = st.number_input(
     step=1
 )
 
-# Simple regression-style prediction
+research = st.selectbox(
+    "Research Experience",
+    options=["No", "Yes"]
+)
+
+research_value = 1 if research == "Yes" else 0
+
 prediction = (
     0.05
-    + (cgpa / 10) * 0.45
-    + ((gre - 260) / 80) * 0.20
-    + (toefl / 120) * 0.15
-    + (university_rating / 5) * 0.10
+    + (cgpa / 10) * 0.40
+    + ((gre - 260) / 80) * 0.18
+    + (toefl / 120) * 0.14
+    + (university_rating / 5) * 0.08
+    + research_value * 0.15
 )
 
 prediction = min(max(prediction, 0), 1)
@@ -64,12 +71,20 @@ st.metric(
 
 st.header("Input Metrics")
 
-labels = ["CGPA", "GRE", "TOEFL", "University Rating"]
+labels = [
+    "CGPA",
+    "GRE",
+    "TOEFL",
+    "University Rating",
+    "Research"
+]
+
 values = [
     cgpa / 10,
     (gre - 260) / 80,
     toefl / 120,
-    university_rating / 5
+    university_rating / 5,
+    research_value
 ]
 
 fig, ax = plt.subplots()
